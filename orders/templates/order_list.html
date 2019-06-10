@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}全体员工{% endblock %}
+{% if user.is_authenticated %}
+                        {% block nav_order_active %}active{% endblock %}
+{% endif %}
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                <table class="table table-bordered table-hover">
+                    <span style="margin-right: 1em"><a href="{% url 'order_append' %}">新增订单</a></span>
+                    <span><a href="{% url 'order_select' %}">查找</a></span>
+                  <thead>
+                    <tr>
+                      <th scope="col">订单号</th>
+                      <th scope="col">产品名称</th>
+                      <th scope="col">客户</th>
+                      <th scope="col">数量</th>
+                      <th scope="col">单价(元)</th>
+                       <th scope="col">总价(元)</th>
+                        <th scope="col">订货时间</th>
+                       <th scope="col">交货时间</th>
+                      <th scope="col">补充</th>
+                         <th scope="col">修改</th>
+                      <th scope="col">删除</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for order in order_lists%}
+                    <tr>
+                      <td>{{order.id}}</td>
+                      <td>{{order.order_name}}</td>
+                      <td>{{order.order_client}}</td>
+                      <td>{{order.order_number}}</td>
+                      <td>{{order.order_price}}</td>
+                        <td>{{order.order_total_price}}</td>
+                      <td>{{order.order_time}}</td>
+                      <td>{{order.order_end}}</td>
+                      <td>{{order.order_supplement}}</td>
+                           <td><a href="{% url 'order_modify' order.pk%}">修改</a></li></td>
+                      <td><a href="{% url 'order_delete' order.pk%}">删除</a></li></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

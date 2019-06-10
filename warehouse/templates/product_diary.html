@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}全体员工{% endblock %}
+{% block nav_producediary_active %}active{% endblock %}
+
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                <table class="table table-bordered table-hover">
+                    <a href="{% url 'product_diary_append' %}">新增生产日报</a>
+                    <span style="margin-left: 1em"><a href="{% url 'product_diary_select' %}">查询</a></span>
+                  <thead>
+                    <tr>
+                      <th scope="col">日期</th>
+                      <th scope="col">设备</th>
+                      <th scope="col">员工</th>
+                      <th scope="col">产品</th>
+                      <th scope="col">今日产量</th>
+                       <th scope="col">合格量</th>
+                           <th scope="col">修改</th>
+                      <th scope="col">删除</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for product_diary in product_diaries%}
+                    <tr>
+                      <td>{{product_diary.current_time}}</td>
+                        <td>{{product_diary.facility_id}}</td>
+                      <td>{{product_diary.staff_name}}</td>
+                      <td>{{product_diary.product_name}}</td>
+                      <td>{{product_diary.today_done_num}}</td>
+                      <td>{{product_diary.qualified_num}}</td>
+                         <td><a href="{% url 'product_diary_modify' product_diary.pk%}">修改</a></li></td>
+                      <td><a href="{% url 'product_diary_delete' product_diary.pk%}">删除</a></li></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

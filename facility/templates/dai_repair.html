@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}全体员工{% endblock %}
+{% if user.is_authenticated %}
+                        {% block nav_facility_active %}active{% endblock %}
+
+                        {% block nav_facility1_active %}active{% endblock %}
+                        {% block nav_facility2_active %}active{% endblock %}
+{% endif %}
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                <div>
+                    <span>还有{{count}}个报修没有处理</span>
+                    <a href="{%url 'baoxiu' user.pk%}">我要报修</a></div>
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">故障设备</th>
+                         <th scope="col">报修人</th>
+                      <th scope="col">联系方式</th>
+                        <th scope="col">故障描述</th>
+                      <th scope="col">报修时间</th>
+                        <th scope="col">是否解决</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for repair in repairs%}
+                    <tr>
+                      <td>{{repair.facility_id}}</td>
+                        <td>{{repair.baoxiu_staff_name}}</td>
+                      <td>{{repair.baoxiu_staff_tel}}</td>
+                        <td>{{repair.baoxiu_complementary}}</td>
+                      <td>{{repair.baoxiu_time}}</td>
+                        <td><a href="{% url 'mark_done' repair.pk user.pk%}">标记已解决</a></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}全体员工{% endblock %}
+{% if user.is_authenticated %}
+                    {% if user_get_staff_type == '经理' %}
+                        {% block nav_salary_active %}active{% endblock %}
+                    {% else %}
+                        {% block nav_salary1_active %}active{% endblock %}
+                    {% endif %}
+{% endif %}
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                <table class="table table-bordered table-hover">
+                    <a href="{% url 'salary_normal_select' %}">查找</a>
+                  <thead>
+                    <tr>
+                      <th scope="col">日期</th>
+                      <th scope="col">姓名</th>
+                      <th scope="col">出勤(天)</th>
+                      <th scope="col">请假(天)</th>
+                      <th scope="col">旷班(天)</th>
+                       <th scope="col">出差(天)</th>
+                      <th scope="col">迟到(天)</th>
+                        <th scope="col">早退(天)</th>
+                        <th scope="col">加班时长(时)</th>
+                        <th scope="col">基础工资(元)</th>
+                        <th scope="col">加班工资(元)</th>
+                        <th scope="col">应扣(元)</th>
+                        <th scope="col">补贴(元)</th>
+                        <th scope="col">应发(元)</th>
+                        <th scope="col">个人所得税(元)</th>
+                        <th scope="col">实发(元)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for salary_list in salary_lists%}
+                    <tr>
+                      <td>{{salary_list.current_time}}</td>
+                      <td>{{salary_list.staff_name}}</td>
+                      <td>{{salary_list.attend_days}}</td>
+                      <td>{{salary_list.leave_days}}</td>
+                      <td>{{salary_list.absent_days}}</td>
+                        <td>{{salary_list.business_days}}</td>
+                        <td>{{salary_list.late_days}}</td>
+                        <td>{{salary_list.zaotui_days}}</td>
+                        <td>{{salary_list.overtime}}</td>
+                        <td>{{salary_list.base_salary}}</td>
+                        <td>{{salary_list.overtime_salary}}</td>
+                        <td>{{salary_list.kouchu}}</td>
+                        <td>{{salary_list.allowance}}</td>
+                        <td>{{salary_list.should_pay}}</td>
+                        <td>{{salary_list.tax}}</td>
+                        <td>{{salary_list.actual_pay}}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

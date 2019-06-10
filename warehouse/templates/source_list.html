@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}原料类型{% endblock %}
+{% if user.is_authenticated %}
+
+                        {% block nav_warehouse_active %}active{% endblock %}
+{% endif %}
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                <table class="table table-bordered table-hover">
+                    <span style="margin-right: 1em"><a href="{% url 'sourceTypeAppend' %}">增加原料类型</a></span>
+                  <thead>
+                    <tr>
+                      <th scope="col">原料品名</th>
+                        <th scope="col">修改</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for source in goods%}
+                    <tr>
+                      <td>{{source.good_name}}</td>
+                      <td><a href="{% url 'good_type_modify' source.pk%}">修改</a></td>
+
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

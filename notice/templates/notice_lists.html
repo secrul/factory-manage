@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}全体员工{% endblock %}
+{% if user.is_authenticated %}
+                    {% if user_get_staff_type == '经理' %}
+                        {% block nav_staff_active %}active{% endblock %}
+                    {% else %}
+                        {% block nav_staff1_active %}active{% endblock %}
+                    {% endif %}
+{% endif %}
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+
+                {% if user.is_authenticated %}
+                <table class="table table-bordered table-hover">
+                    <a href="#">查找通知</a>
+                    {% if user.get_staff_type == '经理' %}
+                  <thead>
+                    <tr>
+                      <th scope="col">标题</th>
+                         <th scope="col">作者</th>
+                      <th scope="col">发布时间</th>
+                        <th scope="col">修改</th>
+                      <th scope="col">删除</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for u in notice%}
+                    <tr>
+                      <td><a href="{%url 'notice' u.pk%}">{{u.title}}</a></td>
+                      <td>{{u.author}}</td>
+                      <td>{{u.created_time}}</td>
+                        <td><a href="{% url 'NoticeModify' u.pk%}">修改</a></li></td>
+                      <td><a href="{% url 'delete_notice' u.pk%}">删除</a></li></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                    {%else%}
+                        <thead>
+                    <tr>
+                      <th scope="col">姓名</th>
+                      <th scope="col">职位</th>
+                      <th scope="col">性别</th>
+                      <th scope="col">年龄</th>
+                      <th scope="col">籍贯</th>
+                      <th scope="col">民族</th>
+                      <th scope="col">电话</th>
+                      <th scope="col">入职时间</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for u in users%}
+                    <tr>
+                      <td>{{u.username}}</td>
+                      <td>{{u.get_staff_type}}</td>
+                      <td>{{u.get_staff_gender}}</td>
+                      <td>{{u.get_staff_age}}</td>
+                      <td>{{u.get_staff_home}}</td>
+                      <td>{{u.get_staff_nationality}}</td>
+                      <td>{{u.get_staff_tel}}</td>
+                      <td>{{u.get_start_time}}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                    {% endif %}
+                </table>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

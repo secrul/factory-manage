@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}个人资料{% endblock %}
+{% block nav_home_active %}active{% endblock %}
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                    <h2>姓名：{{ user.username }}</h2>
+                    <ul>
+                        <li>职位：{{user.get_staff_type}}</li>
+                        <li>性别：{{user.get_staff_gender}}</li>
+                        <li>年龄：{{user.get_staff_age}}岁</li>
+                         <li>民族：{{user.get_staff_nationality}}</li>
+                        <li>籍贯：{{user.get_staff_home}}</li>
+                        <li>入职时间：{{user.get_start_time}}</li>
+                        <li>电话：{{user.get_staff_tel}}</li>
+                        <li>身份证：{{user.get_id_card}}</li>
+                        <li>时薪：{{user.get_salary_pre_hour}}元/小时</li>
+                        <li>上一次登录的时间：{{ user.last_login|date:"Y-m-d H:i:s" }}</li>
+                        <li><a href="{% url 'change_password' %}">修改密码</a></li>
+                    </ul>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

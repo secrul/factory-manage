@@ -1,0 +1,36 @@
+from django.urls import path
+from . import views
+
+
+urlpatterns = [
+    path('product_list/', views.product_list, name='product_list'),
+    path('product_type_modify/<int:product_type_pk>', views.product_type_modify, name='product_type_modify'),
+    #path('product_type_delete/<int:product_type_pk>', views.product_type_delete, name='product_type_delete'),
+    path('productTypeAppend/', views.productTypeAppend, name='productTypeAppend'),
+    path('source_list/', views.source_list, name='source_list'),
+    path('good_type_modify/<int:good_type_pk>', views.good_type_modify, name='good_type_modify'),
+    #path('good_type_delete/<int:good_type_pk>', views.good_type_delete, name='good_type_delete'),
+    path('sourceTypeAppend/', views.sourceTypeAppend, name='sourceTypeAppend'),
+    path('product_diary/', views.product_diary, name='product_diary'),
+    path('source_diary/', views.source_diary, name='source_diary'),
+    path('product_diary_select/', views.product_diary_select, name='product_diary_select'),
+    path('warehouse_diary/', views.warehouse_diary, name='warehouse_diary'),
+    path('apply/<int:user_pk>', views.apply, name='apply'),
+    path('sanction_list/', views.sanction_list, name='sanction_list'),
+    path('sanction/<int:apply_pk>/<int:user_pk>', views.sanction, name='sanction'),
+    path('buy_list/', views.buy_list, name='buy_list'),
+    path('price/<int:apply_pk>/<int:user_pk>', views.price, name='price'),
+    path('buyed_list/', views.buyed_list, name='buyed_list'),
+    path('purchaseList_select/', views.purchaseList_select, name='purchaseList_select'),
+    path('warehouse_diary_select/', views.warehouse_diary_select, name='warehouse_diary_select'),
+    path('warehouse_source_diary_select/', views.warehouse_source_diary_select, name='warehouse_source_diary_select'),
+    path('product_diary_append/', views.product_diary_append, name='product_diary_append'),
+    path('warehouse_append/', views.warehouse_append, name='warehouse_append'),
+    path('warehouse_source_append/', views.warehouse_source_append, name='warehouse_source_append'),
+    path('warehouse_source_diary_modify/<int:warehouse_pk>', views.warehouse_source_diary_modify, name='warehouse_source_diary_modify'),
+    path('warehouse_source_diary_delete/<int:warehouse_pk>', views.warehouse_source_diary_delete,name='warehouse_source_diary_delete'),
+    path('warehouse_diary_modify/<int:warehouse_pk>', views.warehouse_diary_modify, name='warehouse_diary_modify'),
+    path('warehouse_diary_delete/<int:warehouse_pk>', views.warehouse_diary_delete, name='warehouse_diary_delete'),
+    path('product_diary_delete/<int:product_diary_pk>', views.product_diary_delete, name='product_diary_delete'),
+    path('product_diary_modify/<int:product_diary_pk>', views.product_diary_modify, name='product_diary_modify'),
+]

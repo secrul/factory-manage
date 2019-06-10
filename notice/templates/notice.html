@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}通知{% endblock %}
+{% block content %}
+
+{%for n in notice%}
+<h3 class="text-center">{{n.title}}</h3>
+<p class="col-xs-6 col-xs-offset-3">{{n.content}}</p>
+
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}全体员工{% endblock %}
+{% block nav_warehousediary_active %}active{% endblock %}
+
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                <table class="table table-bordered table-hover">
+                    <a href="{% url 'warehouse_append' %}">增加产品日报</a>
+                    <span style="margin-left: 1em"><a href="{% url 'warehouse_diary_select' %}">查找</a></span>
+                  <thead>
+                    <tr>
+                      <th scope="col">日期</th>
+                      <th scope="col">类型</th>
+                      <th scope="col">数量</th>
+                        <th scope="col">单位</th>
+                           <th scope="col">修改</th>
+                      <th scope="col">删除</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for warehouse_diary in warehouse_diaries%}
+                    <tr>
+                      <td>{{warehouse_diary.current_time}}</td>
+                      <td>{{warehouse_diary.product_name}}</td>
+                      <td>{{warehouse_diary.number}}</td>
+                        <td>{{warehouse_diary.unit}}</td>
+                           <td><a href="{% url 'warehouse_diary_modify' warehouse_diary.pk %}">修改</a></li></td>
+                      <td><a href="{% url 'warehouse_diary_delete' warehouse_diary.pk %}">删除</a></li></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

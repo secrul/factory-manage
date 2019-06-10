@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}全体员工{% endblock %}
+{% if user.is_authenticated %}
+                        {% block nav_facility_active %}active{% endblock %}
+
+                        {% block nav_facility1_active %}active{% endblock %}
+                        {% block nav_facility2_active %}active{% endblock %}
+{% endif %}
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <a href="{% url 'facility_append' %}">新增设备</a>
+                {% if user.is_authenticated %}
+                <table class="table table-bordered table-hover">
+                    <a href="{% url  'facility_select' %}">查找设备</a>
+                  <thead>
+                    <tr>
+                      <th scope="col">名称</th>
+                      <th scope="col">型号</th>
+                      <th scope="col">价格</th>
+                      <th scope="col">购买人</th>
+                      <th scope="col">购买时间</th>
+                         <th scope="col">修改</th>
+                      <th scope="col">删除</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {%for facility in facilities%}
+                    <tr>
+                      <td>{{facility.facility_name}}</td>
+                      <td>{{facility.version}}</td>
+                      <td>{{facility.price}}</td>
+                      <td>{{facility.buyer}}</td>
+                      <td>{{facility.buy_time}}</td>
+                         <td><a href="{% url 'facility_modify' facility.pk%}">修改</a></li></td>
+                      <td><a href="{% url 'facility_delete' facility.pk%}">删除</a></li></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

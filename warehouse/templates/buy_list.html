@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}全体员工{% endblock %}
+{% if user.is_authenticated %}
+                        {% block nav_facility_active %}active{% endblock %}
+
+                        {% block nav_facility1_active %}active{% endblock %}
+                        {% block nav_facility2_active %}active{% endblock %}
+{% endif %}
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                {% if user.get_staff_type == '经理' %}
+                    <div>
+                        <span>还有{{count}}个申请没有处理</span>
+                        <a href="{%url 'apply' user.pk%}">我要申请</a></div>
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">品名</th>
+                            <th scope="col">型号</th>
+                            <th scope="col">数量</th>
+                             <th scope="col">申请人</th>
+                            <th scope="col">申请时间</th>
+                            <th scope="col">批准人</th>
+                            <th scope="col">批准时间</th>
+                            <th scope="col">是否完成</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {%for purchaselist in purchaselists%}
+                        <tr>
+                          <td>{{purchaselist.good_name}}</td>
+                            <td>{{purchaselist.good_version}}</td>
+                          <td>{{purchaselist.good_num}}</td>
+                            <td>{{purchaselist.apply_staff_name}}</td>
+                          <td>{{purchaselist.apply_date}}</td>
+                            <td>{{purchaselist.sanction_staff_name}}</td>
+                          <td>{{purchaselist.sanction_date}}</td>
+                            <td><a href="{% url 'price' purchaselist.pk user.pk%}">标记为已采购</a></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                {% else %}
+                        <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">品名</th>
+                            <th scope="col">型号</th>
+                            <th scope="col">数量</th>
+                             <th scope="col">申请人</th>
+                            <th scope="col">申请时间</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {%for purchaselist in purchaselists%}
+                      {% if user.username == purchaselist.apply_staff_name %}
+                        <tr>
+                          <td>{{purchaselist.good_name}}</td>
+                            <td>{{purchaselist.good_version}}</td>
+                          <td>{{purchaselist.good_num}}</td>
+                            <td>{{purchaselist.apply_staff_name}}</td>
+                          <td>{{purchaselist.apply_date}}</td>
+                        </tr>
+                      {% endif %}
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                {% endif %}
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>    
+{% endblock %}

@@ -1,0 +1,149 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title%} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+     <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-3.37/css/bootstrap.min.css' %}">
+</head>
+<body>
+     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                诺百特
+                <button class="navbar-toggle collapsed"  data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+     </div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'home' %}">诺百特自动化</a>
+        </div>
+          {% if  user.is_authenticated %}
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+              {% if user.get_staff_type == '经理' %}
+              <li class="{% block nav_staff_active %}{% endblock %}">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">员工<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'position_lists'%}">员工类型</a></li>
+                          <li><a href="{% url 'user_list'%}">全体员工</a></li>
+                          <li><a href="{% url 'userappend'%}">新增员工</a></li>
+                          <li><a href="{% url 'staff_type_add'%}">新增职位</a></li>
+                      </ul>
+                    </li>
+                  </li>
+                 <li class="{% block nav_attendence_active %}{% endblock %}"><a href="{% url 'attendence_lists'%}">考勤</a></li>
+                  <li class="{% block nav_salary_active %}{% endblock %}"><a href="{% url 'salary_lists'%}">工资</a></li>
+                  <li class="{% block nav_order_active %}{% endblock %}"><a href="{% url 'order_list' %}">订单</a></li>
+                  <li class="{% block nav_producediary_active %}{% endblock %}"><a href="{% url 'product_diary' %}">生产日报</a></li>
+                   <li class="{% block nav_warehousediary_active %}{% endblock %}">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">仓库<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'product_list' %}">产品类型</a></li>
+                          <li><a href="{% url 'source_list' %}">原料类型</a></li>
+                        <li><a href="{% url 'warehouse_diary' %}">产品日报</a></li>
+                          <li><a href="{% url 'source_diary' %}">原料日报</a></li>
+                      </ul>
+                    </li>
+                  </li>
+                  <li class="{% block nav_purchase_active %}{% endblock %}">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">采购<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'apply' user.pk%}">申请</a></li>
+                          <li><a href="{% url 'sanction_list'%}">待批准</a></li>
+                        <li><a href="{% url 'buy_list'%}">待采购</a></li>
+                          <li><a href="{% url 'buyed_list'%}">采购记录</a></li>
+                      </ul>
+                    </li>
+                  </li>
+                  <li class="{% block nav_facility_active %}{% endblock %}">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">设备<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'facility_document' %}">设备档案</a></li>
+                        <li><a href="{% url 'maintain_document' %}">保养记录</a></li>
+                        <li><a href="{% url 'baoxiu_list'%}">报修</a></li>
+                        <li><a href="{% url 'dai_repair'%}">待维修</a></li>
+                          <li><a href="{% url 'repaired_list'%}">维修记录</a></li>
+                      </ul>
+                    </li>
+                  </li>
+              <li class="{% block nav_notice_active %}{% endblock %}">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公告<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'notice_publish' %}">新增通知</a></li>
+                        <li><a href="{% url 'notice_lists' %}">通知列表</a></li>
+                      </ul>
+                    </li>
+                  </li>
+              {%else%}
+                    <li class="{% block nav_staff1_active %}{% endblock %}"><a href="{% url 'user_list' %}">员工</a></li>
+                    <li class="{% block nav_attendence1_active %}{% endblock %}"><a href="{% url 'attendence_list' user.pk%}">考勤</a></li>
+                    <li class="{% block nav_salary1_active %}{% endblock %}"><a href="{% url 'salary_list' user.pk%}">工资</a></li>
+                    <li class="{% block nav_purchase1_active %}{% endblock %}"><a href="{% url 'apply' user.pk%}">采购申请</a></li>
+                    {% if user.get_staff_type == '维修工' %}
+                        <li class="{% block nav_facility1_active %}{% endblock %}">
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">设备<span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                            <li><a href="{% url 'facility_document' %}">设备档案</a></li>
+                            <li><a href="{% url 'maintain_document' %}">保养记录</a></li>
+                            <li><a href="{% url 'baoxiu_list'%}">报修</a></li>
+                            <li><a href="{% url 'dai_repair'%}">待维修</a></li>
+                              <li><a href="{% url 'repaired_list'%}">维修记录</a></li>
+                          </ul>
+                        </li>
+                        </li>
+                    {%else%}
+                        <li class="{% block nav_facility2_active %}{% endblock %}"><a href="{% url 'baoxiu_list'%}">报修</a></li>
+                    {%endif%}
+              {%endif%}
+          </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  {{user.username}}({{user.get_staff_type}})<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+
+              <li><a href="{% url 'user_info' %}">个人资料</a></li>
+              <li><a href="{% url 'logout' %}?from={{ request.get_full_path }}">退出</a></li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+          {% else %}
+           <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'login' %}?from={{ request.get_full_path }}">登录</a></li>
+           </ul>
+          {% endif %}
+      </div>
+    </nav>
+    {% block content%} {% endblock %}
+
+
+    <script src="{% static 'jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'bootstrap-3.37/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
