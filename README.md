@@ -16,3 +16,5 @@
 有人不太清楚怎么打开，就给我贴标签bug、invalid,emmmm~下面是项目的正确打开方式：将文件download下来后，确保自己有python3的环境。解压后在该页面打开命令行，输入python manage.py runserver,回车应该可以看到http://127.0.0.1:8000/ 在本地浏览器打开就可以了。
 
 我也知道在github上相似项目很多，但这是我辛苦做出了的期末作业，还是想和大家分享一下~
+
+最近我发现运行会有一些问题，staticfiles错误。检查一下Python和Django的版本，现在默认Django是4.x，需要回退为2.2. 将staticfiles改为static，具体错误见issue
